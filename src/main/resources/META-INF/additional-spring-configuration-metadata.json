@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "management.security.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'management.security.enabled'"
+  },
+  {
+    "name": "spring.jpa.hibernate.naming-strategy",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.jpa.hibernate.naming-strategy'"
+  },
+  {
+    "name": "spring.social.validate.facebook.token.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.social.validate.facebook.token.url'"
+  },
+  {
+    "name": "spring.social.validate.facebook.token.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.social.validate.facebook.token.url'"
+  },
+  {
+    "name": "spring.social.validate.facebook.token.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.social.validate.facebook.token.url'"
+  },
+  {
+    "name": "spring.social.validate.facebook.token.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.social.validate.facebook.token.url'"
+  }
+]}
