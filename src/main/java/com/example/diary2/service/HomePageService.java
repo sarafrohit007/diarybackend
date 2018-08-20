@@ -1,3 +1,4 @@
+
 package com.example.diary2.service;
 
 import java.util.ArrayList;
@@ -11,9 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.diary2.dto.request.HomePageRequest;
 import com.example.diary2.dto.response.HomePageResponse;
+import com.example.diary2.dto.response.MainPageResponse;
+import com.example.diary2.impl.DiaryEntryRepositoryImpl;
 import com.example.diary2.model.DiaryEntry;
 import com.example.diary2.model.UserFollowingInformation;
 import com.example.diary2.model.UserInfo;
+import com.example.diary2.model.structures.LatestContentMaxHeap;
 import com.example.diary2.repository.DiaryEntryRepository;
 import com.example.diary2.repository.UserFollowingInformationRepository;
 import com.example.diary2.repository.UserInfoRepository;
@@ -34,6 +38,9 @@ public class HomePageService {
 	
 	@Autowired
 	UserFollowingInformationRepository userFollowingInformationrepository;
+	
+	@Autowired
+	DiaryEntryRepositoryImpl diaryEntryRepositoryImpl;
 
 	public HomePageResponse getHomeComment(HomePageRequest request) {
 		// TODO Auto-generated method stub
@@ -81,6 +88,24 @@ public class HomePageService {
 			userFollowed.add(userFollowingInformation.getFollowedUser());
 		}
 		return userFollowed;
+	}
+	
+	public MainPageResponse getHomeContent() {
+		// TODO Auto-generated method stub
+		MainPageResponse mainPageresponse = new MainPageResponse();
+		List<DiaryEntry> diaryContentList = getDiaryEntryList();
+		LatestContentMaxHeap latestContenetMaxHeap = new LatestContentMaxHeap(ApplicationConstants.MAXIMUM_DEFAULT_SINGLE_SEARCH);
+		for(DiaryEntry diary:diaryContentList) {
+			latestContenetMaxHeap.insert(diary);
+		}
+		latestContenetMaxHeap.maxHeap();
+		mainPageresponse.setLatestContentMaxHeap(latestContenetMaxHeap);
+		return mainPageresponse;
+	}
+
+	private List<DiaryEntry> getDiaryEntryList() {
+		// TODO Auto-generated method stub
+		return diaryEntryRepositoryImpl.getLatestDiaryEntry();
 	}
 	
 	

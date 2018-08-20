@@ -6,18 +6,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.example.diary2.dto.request.DiaryContent;
 import com.example.diary2.model.DiaryEntry;
+import com.example.diary2.model.structures.LatestContentMaxHeap;
 
 @XmlRootElement
 public class HomePageResponse {
-
-	private List<DiaryContentResponse> diaryList1;
 	
 	private boolean result;
 	
 	private Integer status;
 	
 	private List<DiaryEntry> diaryList;
-	
+		
 	public void setDiaryList(List<DiaryEntry> diaryList) {
 		this.diaryList = diaryList;
 	}
@@ -41,10 +40,6 @@ public class HomePageResponse {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	
-	
-	
-	
 	
 	
 }

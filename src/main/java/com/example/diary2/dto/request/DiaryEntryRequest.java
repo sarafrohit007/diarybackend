@@ -12,8 +12,6 @@ public class DiaryEntryRequest {
 	@NotNull
 	private String email;
 	
-	//private String content;
-	
 	@NotNull
 	private Integer contentType;
 	
@@ -25,7 +23,7 @@ public class DiaryEntryRequest {
 	
 	private DiaryContent diaryContent;
 	
-	//private String imageUrls;
+	private Integer fileUploadId;
 	
 	public Integer getTrxnTypeId() {
 		return trxnTypeId;
@@ -81,6 +79,14 @@ public class DiaryEntryRequest {
 
 	public void setDiaryContent(DiaryContent diaryContent) {
 		this.diaryContent = diaryContent;
+	}
+
+	public Integer getFileUploadId() {
+		return fileUploadId;
+	}
+
+	public void setFileUploadId(Integer fileUploadId) {
+		this.fileUploadId = fileUploadId;
 	}
 
 	/*public String getImageUrls() {

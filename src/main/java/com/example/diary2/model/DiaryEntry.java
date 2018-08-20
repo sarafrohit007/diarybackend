@@ -18,7 +18,6 @@ public class DiaryEntry implements Serializable{
 	
 	private Date postTime;
 	
-	//private UserInfo postedBy;
 	@NotNull
 	private UserInfo user;
 	
@@ -30,6 +29,8 @@ public class DiaryEntry implements Serializable{
 	private ContentInfo content;
 	
 	private Integer shared;
+	
+	private Integer viewed;
 
 	public Integer getId() {
 		return id;
@@ -85,6 +86,14 @@ public class DiaryEntry implements Serializable{
 
 	public void setShared(Integer shared) {
 		this.shared = shared;
+	}
+
+	public Integer getViewed() {
+		return viewed;
+	}
+
+	public void setViewed(Integer viewed) {
+		this.viewed = viewed;
 	}
 	
 	

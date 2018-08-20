@@ -3,6 +3,8 @@ package com.example.diary2.dto.request;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.example.diary2.model.ContentInfo;
+
 @XmlRootElement
 public class CommentRequest {
 
@@ -12,14 +14,16 @@ public class CommentRequest {
 	@NotNull
 	private String emailId;
 	
-	@NotNull
+	
 	private String comment;
+	
+	
 	
 	@NotNull
 	private Integer parentCommentId;
 	
 	@NotNull
-	private Integer contentId;
+	private ContentInfo content;
 
 	public Integer getTrxnTypeId() {
 		return trxnTypeId;
@@ -53,13 +57,6 @@ public class CommentRequest {
 		this.parentCommentId = parentCommentId;
 	}
 
-	public Integer getContentId() {
-		return contentId;
-	}
-
-	public void setContentId(Integer contentId) {
-		this.contentId = contentId;
-	}
 	
 	
 }

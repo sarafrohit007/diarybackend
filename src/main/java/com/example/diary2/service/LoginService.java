@@ -2,6 +2,7 @@ package com.example.diary2.service;
 
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,9 +22,14 @@ import org.springframework.stereotype.Service;
 import com.example.diary2.dto.request.FollowRequest;
 import com.example.diary2.dto.request.LoginRequest;
 import com.example.diary2.dto.response.FollowResponse;
+import com.example.diary2.dto.response.HomePageResponse;
 import com.example.diary2.dto.response.LoginResponse;
+import com.example.diary2.dto.response.MainPageResponse;
+import com.example.diary2.impl.DiaryEntryRepositoryImpl;
+import com.example.diary2.model.DiaryEntry;
 import com.example.diary2.model.UserFollowingInformation;
 import com.example.diary2.model.UserInfo;
+import com.example.diary2.model.structures.LatestContentMaxHeap;
 import com.example.diary2.repository.UserFollowingInformationRepository;
 import com.example.diary2.repository.UserInfoRepository;
 import com.example.diary2.util.ApplicationConstants;
@@ -47,6 +53,9 @@ public class LoginService {
 	
 	@Autowired
 	UserFollowingInformationRepository userFollowingInformationRepository;
+	
+	@Autowired
+	DiaryEntryRepositoryImpl diaryEntryRepositoryImpl;
 
 	@Transactional
 	public LoginResponse loginRequest(LoginRequest request) {
@@ -67,10 +76,6 @@ public class LoginService {
 		//processFacebookVerification(request);
 		LoginResponse loginResponse = new LoginResponse();
 		logger.info("Inside in loginRequest() function.");
-		/*boolean validateEmailId = validateEMailId(request.getEmailId());
-		if(!validateEmailId) {
-			return null;
-		}*/
 		UserInfo userInfo = userInfoRepository.getUserInfoByEmailId(request.getEmailId());
 		if(userInfo!=null) {
 			loginResponse.setNumberOfFollowers(userFollowingInformationRepository.getNumberOfFollowers(userInfo));
@@ -106,7 +111,7 @@ public class LoginService {
 		String appId1 = ev.getProperty("spring.social.facebook.appId");
 		String appSecretKey = ev.getProperty("spring.social.facebook.appSecret");
 		//String accsssToken= appId1+"|"+appSecretKey;
-		String fields = "name,email,picture";
+		String fields = "name,email,picture,friends{name,email,profile_pic}";
 		try {
 			fields = URLEncoder.encode(fields, "UTF-8");
 		}catch (Exception e) {
@@ -172,14 +177,5 @@ public class LoginService {
 		// TODO Auto-generated method stub
 		return 15000;
 	}
-
-	/*private boolean validateEMailId(String emailId) {
-		// TODO Auto-generated method stub
-		return false;
-	}*/
-
-	
-	
-	
 	
 }

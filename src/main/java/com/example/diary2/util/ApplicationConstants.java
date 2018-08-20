@@ -34,4 +34,14 @@ public class ApplicationConstants {
 	
 	public static final int HOME_PAGE_FAILURE_RESPONSE = 0;
 	
+	public static final int MAXIMUM_DEFAULT_SINGLE_SEARCH = 100;
+	
+	public static final int CONTENT_LIKE_STATUS = 1;
+	
+	public static final int CONTENT_UPLOAD_STATUS_INCOMPLETE = 2;
+	
+	public static final int CONTENT_UPLOAD_STATUS_COMPLETE = 1;
+	
+	public static final int FILE_FAILURE_UPLOAD_STATUS = -1;
+	
 }

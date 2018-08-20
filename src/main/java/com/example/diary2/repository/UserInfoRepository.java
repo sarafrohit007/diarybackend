@@ -7,5 +7,7 @@ import com.example.diary2.model.UserInfo;
 
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Integer>,UserInfoRepositoryCustom{
+	
+	
 
 }

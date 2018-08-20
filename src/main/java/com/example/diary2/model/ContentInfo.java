@@ -1,13 +1,12 @@
 package com.example.diary2.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-
 
 @Entity
 public class ContentInfo implements Serializable{
@@ -18,9 +17,9 @@ public class ContentInfo implements Serializable{
 	
 	private String content;
 	
-	private String imageUrls;
+	private Set<String> imageUrls;
 	
-	private String gifImageUrls;
+	private int uploadStatus;
 
 	public Integer getId() {
 		return id;
@@ -37,21 +36,20 @@ public class ContentInfo implements Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-	public String getImageUrls() {
+	
+	public Set<String> getImageUrls() {
 		return imageUrls;
 	}
 
-	public void setImageUrls(String imageUrls) {
+	public void setImageUrls(Set<String> imageUrls) {
 		this.imageUrls = imageUrls;
 	}
 
-	public String getGifImageUrls() {
-		return gifImageUrls;
+	public int getUploadStatus() {
+		return uploadStatus;
 	}
 
-	public void setGifImageUrls(String gifImageUrls) {
-		this.gifImageUrls = gifImageUrls;
-	}
-	
+	public void setUploadStatus(int uploadStatus) {
+		this.uploadStatus = uploadStatus;
+	}	
 }

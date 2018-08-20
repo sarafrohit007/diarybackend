@@ -19,7 +19,13 @@ public class LikeInfo {
 	private Integer contentId;
 	
 	@NotNull
+	private  ContentInfo contentInfo;
+	
+	@NotNull
 	private String emailId;
+	
+	@NotNull
+	private UserInfo user;
 	
 	@NotNull
 	private Date likeTime;
@@ -77,6 +83,24 @@ public class LikeInfo {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
+	public UserInfo getUser() {
+		return user;
+	}
+
+	public void setUser(UserInfo user) {
+		this.user = user;
+	}
+
+	public ContentInfo getContentInfo() {
+		return contentInfo;
+	}
+
+	public void setContentInfo(ContentInfo contentInfo) {
+		this.contentInfo = contentInfo;
+	}
+	
+	
 	
 		
 }
