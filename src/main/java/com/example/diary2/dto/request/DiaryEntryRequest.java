@@ -7,17 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class DiaryEntryRequest {
 
 	@NotNull
-	private Integer trxnTypeId;
-	
-	@NotNull
 	private String email;
-	
-	@NotNull
-	private Integer contentType;
-	
-	@NotNull
-	private Integer fontType;
-	
+		
 	@NotNull
 	private Integer share;
 	
@@ -25,13 +16,13 @@ public class DiaryEntryRequest {
 	
 	private Integer fileUploadId;
 	
-	public Integer getTrxnTypeId() {
-		return trxnTypeId;
-	}
-
-	public void setTrxnTypeId(Integer trxnTypeId) {
-		this.trxnTypeId = trxnTypeId;
-	}
+//	public Integer getTrxnTypeId() {
+//		return trxnTypeId;
+//	}
+//
+//	public void setTrxnTypeId(Integer trxnTypeId) {
+//		this.trxnTypeId = trxnTypeId;
+//	}
 
 	public String getEmail() {
 		return email;
@@ -39,30 +30,6 @@ public class DiaryEntryRequest {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	/*public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}*/
-
-	public Integer getContentType() {
-		return contentType;
-	}
-
-	public void setContentType(Integer contentType) {
-		this.contentType = contentType;
-	}
-
-	public Integer getFontType() {
-		return fontType;
-	}
-
-	public void setFontType(Integer fontType) {
-		this.fontType = fontType;
 	}
 
 	public Integer getShare() {
@@ -87,15 +54,6 @@ public class DiaryEntryRequest {
 
 	public void setFileUploadId(Integer fileUploadId) {
 		this.fileUploadId = fileUploadId;
-	}
-
-	/*public String getImageUrls() {
-		return imageUrls;
-	}
-
-	public void setImageUrls(String imageUrls) {
-		this.imageUrls = imageUrls;
-	}*/
-	
+	}	
 	
 }

@@ -3,12 +3,17 @@ package com.example.diary2.service;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +46,7 @@ public class DiaryEntryService {
 	@PersistenceContext 
 	EntityManager em;
 
+	@Transactional
 	public DiaryEntryResponse submitEntry(DiaryEntryRequest request) {
 		// TODO Auto-generated method stub
 		String email = request.getEmail();
@@ -56,14 +62,23 @@ public class DiaryEntryService {
 				diaryEntry.setUser(user);
 				if(request.getFileUploadId() == ApplicationConstants.FILE_FAILURE_UPLOAD_STATUS) {
 					content = makeContent(request.getDiaryContent());
+					if(content == null) {
+						diaryEntryResponse.setResponse(false);
+						diaryEntryResponse.setStatus(ApplicationConstants.DIARY_ENTRY_FAILURE_RESPONSE);
+						return diaryEntryResponse;
+					}
 					diaryEntry.setContent(content);
 				}else {
 					content = contentInfoRepository.getContentInfoById(request.getFileUploadId());
 					content.setContent(request.getDiaryContent()!=null?request.getDiaryContent().getContent()!=null?request.getDiaryContent().getContent():"":"");
+					diaryEntry.setContent(content);
 				}
 				content.setUploadStatus(ApplicationConstants.CONTENT_UPLOAD_STATUS_COMPLETE);
 				em.persist(content);
+				//insertInDatabase(content);
+				user.setNumberOfPosts(user.getNumberOfPosts()+1);
 				em.persist(diaryEntry);
+				em.persist(user);
 				diaryEntryResponse.setResponse(true);
 				diaryEntryResponse.setStatus(ApplicationConstants.DIARY_ENTRY_SUCCESS_RESPONSE);
 			}catch(Exception e) {
@@ -81,10 +96,18 @@ public class DiaryEntryService {
 	private ContentInfo makeContent(DiaryContent diaryContent) {
 		// TODO Auto-generated method stub
 		ContentInfo contentObject = new ContentInfo();
-		contentObject.setContent(diaryContent.getContent());
+		try {
+			//contentObject.setContent(URLEncoder.encode(diaryContent.getContent(),"UTF-8"));
+			contentObject.setContent(diaryContent.getContent());
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 		return contentObject;
 	}
 
+	@Transactional
 	public FileUploadResponse uploadContentFiles(MultipartFile[] files) {
 		// TODO Auto-generated method stub
 		FileUploadResponse fileUploadResponse = new FileUploadResponse();
@@ -97,7 +120,10 @@ public class DiaryEntryService {
 				try {
 					if(!files[i].isEmpty()) {
 						byte[] bytes = files[i].getBytes();
-						File storedFile = new File("/home/rohitsaraf/Downloads/fileuploadexample/"+files[i].getOriginalFilename()); // Add time constraint to identify uniqueness
+						String fileName = files[i].getOriginalFilename().trim().replaceAll(" ", "");
+						int  index = fileName.lastIndexOf(".");
+						String timeString = getTimeInString();
+						File storedFile = new File("/home/rohitsaraf/Downloads/fileuploadexample/"+fileName.substring(0, index)+"_"+timeString+"."+fileName.substring(index+1,fileName.length())); // Add time constraint to identify uniqueness
 						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(storedFile));
 						stream.write(bytes);
 						stream.close();
@@ -116,7 +142,7 @@ public class DiaryEntryService {
 				fileUploadResponse.setNumberOfFilesUpload(0);
 			}else {
 				try {
-					em.persist(contentInfo);
+					insertInDatabase(contentInfo);
 				}catch(Exception e) {
 					e.printStackTrace();
 					fileUploadResponse.setContentUploadId(-1);
@@ -128,6 +154,22 @@ public class DiaryEntryService {
 			}
 		}
 		return fileUploadResponse;
+	}
+
+	@Transactional
+	public void insertInDatabase(ContentInfo contentInfo) {
+		em.persist(contentInfo);
+	}
+
+	private String getTimeInString() {
+		// TODO Auto-generated method stub
+		
+		String time = "";
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();
+		DateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss");
+		time = df.format(date);
+		return time;
 	}
 
 	private ContentInfo makeContentEntryInDatabase(Set<String> fileInload) {
