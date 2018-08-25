@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class DiaryContent {
 
 	private String content;
+	
+	//private byte[] contentInBytes;
 
 	public String getContent() {
 		return content;
