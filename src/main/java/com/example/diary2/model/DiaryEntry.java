@@ -2,16 +2,25 @@ package com.example.diary2.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class DiaryEntry implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6492689052913801962L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
@@ -20,13 +29,17 @@ public class DiaryEntry implements Serializable{
 	
 	@NotNull
 	private UserInfo user;
-	
-	private Integer numberOfComments;
-	
-	private Integer numberOfLikes;
-	
+		
 	@NotNull
 	private ContentInfo content;
+	
+	@Column(name="likeinfolist")
+	@OneToMany(targetEntity=LikeInfo.class,fetch=FetchType.LAZY)
+	private Set<LikeInfo> likeInfoList;
+	
+	@Column(name="commentinfolist")
+	@OneToMany(targetEntity=CommentInfo.class,fetch=FetchType.LAZY)
+	private Set<CommentInfo> commentInfoList;
 	
 	private Integer shared;
 	
@@ -56,22 +69,6 @@ public class DiaryEntry implements Serializable{
 		this.user = user;
 	}
 
-	public Integer getNumberOfComments() {
-		return numberOfComments;
-	}
-
-	public void setNumberOfComments(Integer numberOfComments) {
-		this.numberOfComments = numberOfComments;
-	}
-
-	public Integer getNumberOfLikes() {
-		return numberOfLikes;
-	}
-
-	public void setNumberOfLikes(Integer numberOfLikes) {
-		this.numberOfLikes = numberOfLikes;
-	}
-
 	public ContentInfo getContent() {
 		return content;
 	}
@@ -95,6 +92,24 @@ public class DiaryEntry implements Serializable{
 	public void setViewed(Integer viewed) {
 		this.viewed = viewed;
 	}
+
+	public Set<LikeInfo> getLikeInfoList() {
+		return likeInfoList;
+	}
+
+	public void setLikeInfoList(Set<LikeInfo> likeInfoList) {
+		this.likeInfoList = likeInfoList;
+	}
+
+	public Set<CommentInfo> getCommentInfoList() {
+		return commentInfoList;
+	}
+
+	public void setCommentInfoList(Set<CommentInfo> commentInfoList) {
+		this.commentInfoList = commentInfoList;
+	}
+	
+	
 	
 	
 }

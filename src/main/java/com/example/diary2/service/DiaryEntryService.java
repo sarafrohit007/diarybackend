@@ -3,7 +3,6 @@ package com.example.diary2.service;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.diary2.dto.request.DiaryContent;
 import com.example.diary2.dto.request.DiaryEntryRequest;
 import com.example.diary2.dto.response.DiaryEntryResponse;
 import com.example.diary2.dto.response.FileUploadResponse;
@@ -57,25 +55,29 @@ public class DiaryEntryService {
 				ContentInfo  content = null;
 				DiaryEntry diaryEntry = new DiaryEntry();
 				diaryEntry.setPostTime(new Date());
-				diaryEntry.setNumberOfLikes(ApplicationConstants.INITIAL_LIKES_COUNT);
-				diaryEntry.setNumberOfComments(ApplicationConstants.INITIAL_COMMENTS_COUNT);
+				diaryEntry.setCommentInfoList(null);
+				diaryEntry.setLikeInfoList(null);
 				diaryEntry.setUser(user);
 				if(request.getFileUploadId() == ApplicationConstants.FILE_FAILURE_UPLOAD_STATUS) {
-					content = makeContent(request.getDiaryContent());
-					if(content == null) {
+					content = new ContentInfo();
+					String contentInString = request.getDiaryContent().getContent();
+					byte b[] = contentInString!=null&&!contentInString.equals("")?contentInString.getBytes():null;
+					content.setContentInBytes(b);
+					diaryEntry.setContent(content);
+				}else {
+					content = contentInfoRepository.getContentInfoById(request.getFileUploadId());
+					if(content==null) {
 						diaryEntryResponse.setResponse(false);
 						diaryEntryResponse.setStatus(ApplicationConstants.DIARY_ENTRY_FAILURE_RESPONSE);
 						return diaryEntryResponse;
 					}
-					diaryEntry.setContent(content);
-				}else {
-					content = contentInfoRepository.getContentInfoById(request.getFileUploadId());
-					content.setContent(request.getDiaryContent()!=null?request.getDiaryContent().getContent()!=null?request.getDiaryContent().getContent():"":"");
+					String contentInString = request.getDiaryContent().getContent();
+					byte b[] = contentInString!=null&&!contentInString.equals("")?contentInString.getBytes():null;
+					content.setContentInBytes(b);
 					diaryEntry.setContent(content);
 				}
 				content.setUploadStatus(ApplicationConstants.CONTENT_UPLOAD_STATUS_COMPLETE);
 				em.persist(content);
-				//insertInDatabase(content);
 				user.setNumberOfPosts(user.getNumberOfPosts()+1);
 				em.persist(diaryEntry);
 				em.persist(user);
@@ -93,26 +95,11 @@ public class DiaryEntryService {
 		return diaryEntryResponse;
 	}
 
-	private ContentInfo makeContent(DiaryContent diaryContent) {
-		// TODO Auto-generated method stub
-		ContentInfo contentObject = new ContentInfo();
-		try {
-			//contentObject.setContent(URLEncoder.encode(diaryContent.getContent(),"UTF-8"));
-			contentObject.setContent(diaryContent.getContent());
-		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		
-		return contentObject;
-	}
-
 	@Transactional
 	public FileUploadResponse uploadContentFiles(MultipartFile[] files) {
 		// TODO Auto-generated method stub
 		FileUploadResponse fileUploadResponse = new FileUploadResponse();
 		int totalNumberOfFileUploaded = 0;
-		//DiaryEntry diaryEntry = new DiaryEntry();
 		ContentInfo contentInfo = null;
 		Set<String> fileInload = new HashSet<String>();
 		fileUploadResponse.setTotalNumberOfFiles(files.length);

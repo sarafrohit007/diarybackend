@@ -1,39 +1,45 @@
 package com.example.diary2.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class LikeInfo {
+@Table(name="like_info")
+public class LikeInfo implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8006316553819702872L;
 
 	@Id
 	@GeneratedValue(strategy =GenerationType.AUTO)
 	private Integer id;
 	
 	@NotNull
-	private Integer contentId;
-	
-	@NotNull
+	@ManyToOne(fetch=FetchType.LAZY)
 	private  ContentInfo contentInfo;
 	
 	@NotNull
 	private String emailId;
 	
 	@NotNull
+	@ManyToOne(fetch=FetchType.LAZY)
 	private UserInfo user;
 	
-	@NotNull
 	private Date likeTime;
 	
-	@NotNull
 	private Date unlikeTime;
 	
-	@NotNull
 	private Integer status;
 
 	public Integer getId() {
@@ -42,14 +48,6 @@ public class LikeInfo {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getContentId() {
-		return contentId;
-	}
-
-	public void setContentId(Integer contentId) {
-		this.contentId = contentId;
 	}
 
 	public String getEmailId() {

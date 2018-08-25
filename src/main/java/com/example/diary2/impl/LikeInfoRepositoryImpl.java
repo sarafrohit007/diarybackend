@@ -21,12 +21,6 @@ public class LikeInfoRepositoryImpl implements LikeInfoRepositoryCustom{
 	protected EntityManager em;
 
 	@Override
-	public int getLikeStatusByContentIdAndEmailId(Integer contentId, String emailId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public List<UserInfo> getLikedByUser(ContentInfo contentInfo) {
 		// TODO Auto-generated method stub
 		Criteria criteria = em.unwrap(Session.class).createCriteria(LikeInfo.class);
@@ -37,6 +31,12 @@ public class LikeInfoRepositoryImpl implements LikeInfoRepositoryCustom{
 		}
 		List<UserInfo> userInfoList = criteria.list();
 		return userInfoList;
+	}
+
+	@Override
+	public int getLikeStatusByContentInfoAndEmailId(ContentInfo contentInfo, String emailId) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
