@@ -135,6 +135,23 @@ public class LoginController {
 		return ResponseEntity.ok().body(fileUploadResponse);
 	}
 	
+	@RequestMapping(method=RequestMethod.POST, value = "/uploadCommentFile")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseEntity<FileUploadResponse> uploadCommentfile(@RequestParam("File") MultipartFile[] files){
+		//for(BodyPart bodyPart: body.getPa)
+		FileUploadResponse fileUploadResponse = new FileUploadResponse();
+		if(files.length>0) {
+			fileUploadResponse.setTotalNumberOfFiles(files.length);
+			//fileUploadResponse = diaryEntryService.uploadContentFiles(files);
+			fileUploadResponse = commentService.uploadCommentFiles(files);
+		}else {
+			fileUploadResponse.setTotalNumberOfFiles(0);
+			fileUploadResponse.setNumberOfFilesUpload(0);
+		}
+		return ResponseEntity.ok().body(fileUploadResponse);
+	}
+	
 	/*@RequestMapping(method = RequestMethod.POST, value = "/telegram")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
