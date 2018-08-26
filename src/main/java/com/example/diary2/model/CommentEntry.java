@@ -16,54 +16,42 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="diary_entry")
-public class DiaryEntry implements Serializable{
+@Table(name="comment_entry")
+public class CommentEntry implements Serializable{
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6492689052913801962L;
+	private static final long serialVersionUID = -7888771130221630934L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	
+	@NotNull
+	@OneToOne(fetch=FetchType.LAZY)
+	private UserInfo user;
+	
 	private Date postTime;
 	
 	@NotNull
 	@OneToOne(fetch=FetchType.LAZY)
-	private UserInfo user;
-		
-	@NotNull
-	@OneToOne(fetch=FetchType.LAZY)
-	private ContentInfo content;
+	private CommentInfo commentInfo;
 	
 	@Column(name="likeinfolist")
-	@OneToMany(targetEntity=LikeInfo.class,fetch=FetchType.LAZY)
+	@OneToMany(fetch=FetchType.LAZY,targetEntity=LikeInfo.class)
 	private Set<LikeInfo> likeInfoList;
 	
-	@Column(name="commentinfolist")
-	@OneToMany(targetEntity=CommentInfo.class,fetch=FetchType.LAZY)
-	private Set<CommentInfo> commentInfoList;
+	@Column(name="commentList")
+	@OneToMany(fetch=FetchType.LAZY,targetEntity=CommentEntry.class)
+	private Set<CommentEntry> commentReplies;
 	
-	private Integer shared;
-	
-	private Integer viewed;
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Date getPostTime() {
-		return postTime;
-	}
-
-	public void setPostTime(Date postTime) {
-		this.postTime = postTime;
 	}
 
 	public UserInfo getUser() {
@@ -74,28 +62,20 @@ public class DiaryEntry implements Serializable{
 		this.user = user;
 	}
 
-	public ContentInfo getContent() {
-		return content;
+	public Date getPostTime() {
+		return postTime;
 	}
 
-	public void setContent(ContentInfo content) {
-		this.content = content;
+	public void setPostTime(Date postTime) {
+		this.postTime = postTime;
 	}
 
-	public Integer getShared() {
-		return shared;
+	public CommentInfo getCommentInfo() {
+		return commentInfo;
 	}
 
-	public void setShared(Integer shared) {
-		this.shared = shared;
-	}
-
-	public Integer getViewed() {
-		return viewed;
-	}
-
-	public void setViewed(Integer viewed) {
-		this.viewed = viewed;
+	public void setCommentInfo(CommentInfo commentInfo) {
+		this.commentInfo = commentInfo;
 	}
 
 	public Set<LikeInfo> getLikeInfoList() {
@@ -106,11 +86,12 @@ public class DiaryEntry implements Serializable{
 		this.likeInfoList = likeInfoList;
 	}
 
-	public Set<CommentInfo> getCommentInfoList() {
-		return commentInfoList;
+	public Set<CommentEntry> getCommentReplies() {
+		return commentReplies;
 	}
 
-	public void setCommentInfoList(Set<CommentInfo> commentInfoList) {
-		this.commentInfoList = commentInfoList;
+	public void setCommentReplies(Set<CommentEntry> commentReplies) {
+		this.commentReplies = commentReplies;
 	}
+
 }

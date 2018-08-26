@@ -147,6 +147,9 @@ public class DiaryEntryService {
 				fileUploadResponse.setContentUploadId(contentInfo.getId());
 				fileUploadResponse.setNumberOfFilesUpload(totalNumberOfFileUploaded);
 			}
+		}else {
+			fileUploadResponse.setContentUploadId(-1);
+			fileUploadResponse.setNumberOfFilesUpload(0);
 		}
 		return fileUploadResponse;
 	}

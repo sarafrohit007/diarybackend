@@ -53,6 +53,9 @@ public class CommentInfo implements Serializable{
 	@Column(name="contenttype",nullable=false)
 	private ContentType contentType;
 	
+	@Column(name="upload_status")
+	private int uploadStatus;
+	
 
 	public Integer getId() {
 		return id;
@@ -116,6 +119,14 @@ public class CommentInfo implements Serializable{
 
 	public void setContentType(ContentType contentType) {
 		this.contentType = contentType;
+	}
+
+	public int getUploadStatus() {
+		return uploadStatus;
+	}
+
+	public void setUploadStatus(int uploadStatus) {
+		this.uploadStatus = uploadStatus;
 	}
 	
 	

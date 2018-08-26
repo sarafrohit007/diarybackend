@@ -44,4 +44,12 @@ public class ApplicationConstants {
 	
 	public static final int FILE_FAILURE_UPLOAD_STATUS = -1;
 	
+	public static final int COMMENT_UPLOAD_STATUS_INCOMPLETE = 2;
+	
+	public static final int COMMENT_UPLOAD_STATUS_COMPLETE = 1;
+	
+	public static final int USER_NOT_ALLOWED_TO_WRITE_COMMENT = 0;
+	
+	public static final int USER_ALLOWED_TO_WRITE_COMMENT = 1;
+	
 }
