@@ -52,4 +52,8 @@ public class ApplicationConstants {
 	
 	public static final int USER_ALLOWED_TO_WRITE_COMMENT = 1;
 	
+	public static final int COMMENT_ENTRY_FAILURE_RESPONSE = 2;
+	
+	public static final int COMMENT_ENTRY_SUCCESS_RESPONSE = 1;
+	
 }

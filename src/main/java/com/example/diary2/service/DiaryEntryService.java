@@ -50,11 +50,12 @@ public class DiaryEntryService {
 		String email = request.getEmail();
 		DiaryEntryResponse diaryEntryResponse = new DiaryEntryResponse();
 		UserInfo user = userInfoRepository.getUserInfoByEmailId(email);
+		Calendar calendar = Calendar.getInstance();		
 		if(user!=null) {
 			try {
 				ContentInfo  content = null;
 				DiaryEntry diaryEntry = new DiaryEntry();
-				diaryEntry.setPostTime(new Date());
+				diaryEntry.setPostTime(calendar.getTime());
 				diaryEntry.setCommentInfoList(null);
 				diaryEntry.setLikeInfoList(null);
 				diaryEntry.setUser(user);
@@ -100,6 +101,7 @@ public class DiaryEntryService {
 			diaryEntryResponse.setResponse(false);
 			diaryEntryResponse.setStatus(ApplicationConstants.USER_NOT_ALLOWED_TO_WRITE_DIARY);
 		}
+		calendar = null;
 		return diaryEntryResponse;
 	}
 

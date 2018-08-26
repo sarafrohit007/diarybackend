@@ -13,8 +13,9 @@ public class CommentRequest {
 	
 	private CommentContent commentContent;
 	
-	@NotNull
 	private Integer parentCommentId;
+	
+	private Integer fileUploadId;
 
 	public String getEmailId() {
 		return emailId;
@@ -38,6 +39,14 @@ public class CommentRequest {
 
 	public void setCommentContent(CommentContent commentContent) {
 		this.commentContent = commentContent;
+	}
+
+	public Integer getFileUploadId() {
+		return fileUploadId;
+	}
+
+	public void setFileUploadId(Integer fileUploadId) {
+		this.fileUploadId = fileUploadId;
 	}
 
 	

@@ -21,8 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.diary2.dto.request.CommentRequest;
 import com.example.diary2.dto.response.CommentResponse;
 import com.example.diary2.dto.response.FileUploadResponse;
+import com.example.diary2.model.CommentEntry;
 import com.example.diary2.model.CommentInfo;
 import com.example.diary2.model.UserInfo;
+import com.example.diary2.repository.CommentEntryRepository;
+import com.example.diary2.repository.CommentInfoRepository;
 import com.example.diary2.repository.UserInfoRepository;
 import com.example.diary2.util.ApplicationConstants;
 
@@ -35,29 +38,69 @@ public class CommentService {
 	@Autowired
 	UserInfoRepository userInfoRepository;
 	
+	@Autowired
+	CommentInfoRepository commentRepository;
+	
+	@Autowired
+	CommentEntryRepository commentEntryRepository;
+	
 	@Transactional
 	public CommentResponse submitComment(CommentRequest request) {
 		// TODO Auto-generated method stub
 		CommentResponse commentResponse = new CommentResponse();
 		String email = request.getEmailId();
+		Calendar calendar = Calendar.getInstance();
 		UserInfo user = userInfoRepository.getUserInfoByEmailId(email);
-		if(user!=null) {
-			CommentInfo commentInfo = new CommentInfo();
-			
-		}else {
+		try {
+			if(user!=null) {
+				Integer parentCommentId = request.getParentCommentId();
+				CommentEntry commentEntry = new CommentEntry();
+				commentEntry.setPostTime(calendar.getTime());
+				commentEntry.setUser(user);
+				commentEntry.setCommentReplies(null);
+				commentEntry.setLikeInfoList(null);
+				CommentInfo commentInfo = null;
+				if(request.getFileUploadId()== ApplicationConstants.FILE_FAILURE_UPLOAD_STATUS) {
+					commentInfo = new CommentInfo();
+					String content = request.getCommentContent().getComment();
+					byte[] bytes = content!=null&&!content.equals("")?content.getBytes():null;
+					commentInfo.setCommentInBytes(bytes);
+					commentEntry.setCommentInfo(commentInfo);
+					
+				}else {
+					commentInfo = commentRepository.getCommentInfoById(request.getFileUploadId());
+					if(commentInfo==null) {
+						commentResponse.setResponse(false);
+						commentResponse.setStatus(ApplicationConstants.COMMENT_ENTRY_FAILURE_RESPONSE);
+					}
+					String commentInString = request.getCommentContent().getComment();
+					byte[] commentBytes = commentInString!=null&&!commentInString.equals("")?commentInString.getBytes():null;
+					commentInfo.setCommentInBytes(commentBytes);
+					commentEntry.setCommentInfo(commentInfo);
+				}
+				em.persist(commentInfo);
+				em.persist(commentEntry);
+				if(parentCommentId!=null) {
+					CommentEntry parentComment = commentEntryRepository.getCommentEntryById(parentCommentId);
+					Set<CommentEntry> childCommentEntriesList = parentComment.getCommentReplies();
+					childCommentEntriesList.add(parentComment);
+					em.persist(parentComment);
+				}
+				commentResponse.setResponse(true);
+				commentResponse.setStatus(ApplicationConstants.COMMENT_ENTRY_SUCCESS_RESPONSE);
+				
+			}else {
+				commentResponse.setResponse(false);
+				commentResponse.setStatus(ApplicationConstants.USER_NOT_ALLOWED_TO_WRITE_COMMENT);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
 			commentResponse.setResponse(false);
-			commentResponse.setStatus(ApplicationConstants.USER_NOT_ALLOWED_TO_WRITE_COMMENT);
-		}
-		
-//		String comment =  request.getComment();
-//		String result = EmojiParser.parseToUnicode(comment);
-//		System.out.println("Printing Result "+ result);
-		return null;
+			commentResponse.setStatus(ApplicationConstants.COMMENT_ENTRY_FAILURE_RESPONSE);
+		}		
+		return commentResponse;
 	}
 	
-	
-
-
 	public FileUploadResponse uploadCommentFiles(MultipartFile[] files) {
 		// TODO Auto-generated method stub
 		FileUploadResponse fileUploadResponse = new FileUploadResponse();
