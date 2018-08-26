@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 import com.example.diary2.enums.ContentType;
 
 @Entity
-@Table(name="content_info")
+@Table(name="comment_info")
 public class CommentInfo implements Serializable{
 
 	/**

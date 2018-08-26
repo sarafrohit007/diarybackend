@@ -10,10 +10,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name="diary_entry")
 public class DiaryEntry implements Serializable{
 	
 	/**
@@ -28,9 +31,11 @@ public class DiaryEntry implements Serializable{
 	private Date postTime;
 	
 	@NotNull
+	@ManyToOne(fetch=FetchType.LAZY)
 	private UserInfo user;
 		
 	@NotNull
+	@ManyToOne(fetch=FetchType.LAZY)
 	private ContentInfo content;
 	
 	@Column(name="likeinfolist")

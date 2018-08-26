@@ -78,8 +78,16 @@ public class DiaryEntryService {
 				}
 				content.setUploadStatus(ApplicationConstants.CONTENT_UPLOAD_STATUS_COMPLETE);
 				em.persist(content);
-				user.setNumberOfPosts(user.getNumberOfPosts()+1);
+				//user.setNumberOfPosts(user.getNumberOfPosts()+1);
 				em.persist(diaryEntry);
+				Set<DiaryEntry> diaryEntrySet = user.getDiaryEntryList();
+				if(diaryEntrySet==null) {
+					diaryEntrySet = new HashSet<DiaryEntry>();
+					diaryEntrySet.add(diaryEntry);
+				}else {
+					diaryEntrySet.add(diaryEntry);
+				}
+				user.setDiaryEntryList(diaryEntrySet);
 				em.persist(user);
 				diaryEntryResponse.setResponse(true);
 				diaryEntryResponse.setStatus(ApplicationConstants.DIARY_ENTRY_SUCCESS_RESPONSE);
