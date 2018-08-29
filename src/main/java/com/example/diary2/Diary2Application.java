@@ -12,5 +12,4 @@ public class Diary2Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Diary2Application.class, args);
 	}
-
 }

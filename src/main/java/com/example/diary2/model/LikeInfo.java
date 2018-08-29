@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.example.diary2.enums.ContentType;
+
 @Entity
 @Table(name="like_info")
 public class LikeInfo implements Serializable{
@@ -27,13 +29,6 @@ public class LikeInfo implements Serializable{
 	
 	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY)
-	private  ContentInfo contentInfo;
-	
-	@NotNull
-	private String emailId;
-	
-	@NotNull
-	@ManyToOne(fetch=FetchType.LAZY)
 	private UserInfo user;
 	
 	private Date likeTime;
@@ -41,6 +36,16 @@ public class LikeInfo implements Serializable{
 	private Date unlikeTime;
 	
 	private Integer status;
+	
+	private ContentType contentType;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private DiaryEntry diaryEntry;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private CommentEntry commentEntry;
+	
+	
 
 	public Integer getId() {
 		return id;
@@ -48,14 +53,6 @@ public class LikeInfo implements Serializable{
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getEmailId() {
-		return emailId;
-	}
-
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
 	}
 
 	public Date getLikeTime() {
@@ -90,15 +87,29 @@ public class LikeInfo implements Serializable{
 		this.user = user;
 	}
 
-	public ContentInfo getContentInfo() {
-		return contentInfo;
+	public ContentType getContentType() {
+		return contentType;
 	}
 
-	public void setContentInfo(ContentInfo contentInfo) {
-		this.contentInfo = contentInfo;
+	public void setContentType(ContentType contentType) {
+		this.contentType = contentType;
+	}
+
+	public DiaryEntry getDiaryEntry() {
+		return diaryEntry;
+	}
+
+	public void setDiaryEntry(DiaryEntry diaryEntry) {
+		this.diaryEntry = diaryEntry;
+	}
+
+	public CommentEntry getCommentEntry() {
+		return commentEntry;
+	}
+
+	public void setCommentEntry(CommentEntry commentEntry) {
+		this.commentEntry = commentEntry;
 	}
 	
-	
-	
-		
+			
 }

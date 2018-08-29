@@ -3,11 +3,10 @@ package com.example.diary2.dto.request;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.example.diary2.enums.ContentType;
+
 @XmlRootElement
 public class LikeRequest {
-	
-	@NotNull
-	private Integer trxnTypeId;
 
 	@NotNull
 	private String emailId;
@@ -15,17 +14,9 @@ public class LikeRequest {
 	@NotNull
 	private  String contentId;
 	
-	@NotNull
-	private Integer contentType;
+	private ContentType contentType;
 	
-
-	public Integer getTrxnTypeId() {
-		return trxnTypeId;
-	}
-
-	public void setTrxnTypeId(Integer trxnTypeId) {
-		this.trxnTypeId = trxnTypeId;
-	}
+	private Integer likeStatus;
 
 	public String getEmailId() {
 		return emailId;
@@ -43,15 +34,20 @@ public class LikeRequest {
 		this.contentId = contentId;
 	}
 
-	public Integer getContentType() {
+	public ContentType getContentType() {
 		return contentType;
 	}
 
-	public void setContentType(Integer contentType) {
+	public void setContentType(ContentType contentType) {
 		this.contentType = contentType;
 	}
-	
-	
-	
-	
+
+	public Integer getLikeStatus() {
+		return likeStatus;
+	}
+
+	public void setLikeStatus(Integer likeStatus) {
+		this.likeStatus = likeStatus;
+	}	
+
 }

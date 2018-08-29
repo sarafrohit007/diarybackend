@@ -26,22 +26,23 @@ import com.example.diary2.dto.request.CommentRequest;
 import com.example.diary2.dto.request.DiaryEntryRequest;
 import com.example.diary2.dto.request.FollowRequest;
 import com.example.diary2.dto.request.HomePageRequest;
+import com.example.diary2.dto.request.LikeRequest;
 import com.example.diary2.dto.request.LoginRequest;
 import com.example.diary2.dto.response.CommentResponse;
 import com.example.diary2.dto.response.DiaryEntryResponse;
 import com.example.diary2.dto.response.FileUploadResponse;
 import com.example.diary2.dto.response.FollowResponse;
 import com.example.diary2.dto.response.HomePageResponse;
+import com.example.diary2.dto.response.LikeResponse;
 import com.example.diary2.dto.response.LoginResponse;
 import com.example.diary2.dto.response.MainPageResponse;
 import com.example.diary2.service.CommentService;
 import com.example.diary2.service.DiaryEntryService;
 import com.example.diary2.service.FollowService;
 import com.example.diary2.service.HomePageService;
+import com.example.diary2.service.LikeService;
 import com.example.diary2.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-/*import com.pengrad.telegrambot.model.Update;*/
-//import com.pengrad.telegrambot.model.Update;
 
 @Controller
 @RequestMapping("/api")
@@ -65,6 +66,9 @@ public class LoginController {
 	
 	@Autowired
 	HomePageService homePageService;
+	
+	@Autowired
+	LikeService likeService;
 	
 	
 	
@@ -151,6 +155,15 @@ public class LoginController {
 		}
 		return ResponseEntity.ok().body(fileUploadResponse);
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/like")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ResponseEntity<LikeResponse> likeDiaryEntry(@Valid @RequestBody LikeRequest request) {
+		return ResponseEntity.ok().body(likeService.likeContent(request));
+	}
+	
+//	@RequestMapping(method=RequestMethod.GET,value="/userconten")
 	
 	/*@RequestMapping(method = RequestMethod.POST, value = "/telegram")
 	@Produces(MediaType.APPLICATION_JSON)
