@@ -12,4 +12,6 @@ public interface DiaryEntryRepositoryCustom {
     public List<DiaryEntry> getDiaryEntriesRelatedtoMultipleUsers(List<UserInfo> usersList);
     
     List<DiaryEntry> getLatestDiaryEntry();
+    
+    DiaryEntry getDiaryEntryById(Integer id);
 }

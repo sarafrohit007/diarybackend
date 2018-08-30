@@ -56,6 +56,16 @@ public class ApplicationConstants {
 	
 	public static final int COMMENT_ENTRY_SUCCESS_RESPONSE = 1;
 	
+<<<<<<< HEAD
 	
+=======
+	public static final int LIKE_REQUEST_SUCCESS_STATUS = 1;
+	
+	public static final int LIKE_REQUEST_FAILURE_STATUS = 2;
+	
+	public static final int LIKE_STATUS_IN_LIKE_REQUEST = 1;
+	
+	public static final int UNLIKE_STATUS_IN_LIKE_REQUEST = 0;
+>>>>>>> f4aaecf6217e17fd096e88c04722be2d3929a5fc
 	
 }

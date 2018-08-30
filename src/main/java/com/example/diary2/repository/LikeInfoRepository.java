@@ -7,5 +7,7 @@ import com.example.diary2.model.LikeInfo;
 
 @Repository
 public interface LikeInfoRepository extends JpaRepository<LikeInfo,Integer>,LikeInfoRepositoryCustom{
+	
+	
 
 }

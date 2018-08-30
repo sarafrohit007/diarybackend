@@ -1,8 +1,7 @@
 package com.example.diary2.service;
 
 import java.net.URLEncoder;
-import java.util.Date;
-import java.util.List;
+import java.util.Calendar;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,17 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.example.diary2.dto.request.FollowRequest;
 import com.example.diary2.dto.request.LoginRequest;
-import com.example.diary2.dto.response.FollowResponse;
-import com.example.diary2.dto.response.HomePageResponse;
 import com.example.diary2.dto.response.LoginResponse;
-import com.example.diary2.dto.response.MainPageResponse;
 import com.example.diary2.impl.DiaryEntryRepositoryImpl;
-import com.example.diary2.model.DiaryEntry;
-import com.example.diary2.model.UserFollowingInformation;
 import com.example.diary2.model.UserInfo;
-import com.example.diary2.model.structures.LatestContentMaxHeap;
 import com.example.diary2.repository.UserFollowingInformationRepository;
 import com.example.diary2.repository.UserInfoRepository;
 import com.example.diary2.util.ApplicationConstants;
@@ -65,6 +57,7 @@ public class LoginService {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
+		Calendar cal = Calendar.getInstance();
 		//Facebook
 		String facebookURL = ev.getProperty("spring.social.facebook.graph.api.url");
 		System.out.println("Printing facebookurl "+facebookURL);
@@ -80,7 +73,8 @@ public class LoginService {
 		if(userInfo!=null) {
 			loginResponse.setNumberOfFollowers(userFollowingInformationRepository.getNumberOfFollowers(userInfo));
 			loginResponse.setNumberOfFollowing(userFollowingInformationRepository.getNumberOfFollowing(userInfo));
-			loginResponse.setNumberOfPosts(userInfo.getNumberOfPosts());
+			loginResponse.setNumberOfPosts(userInfo.getDiaryEntryList()!=null?userInfo.getDiaryEntryList().size():0);
+			//loginResponse.setNumberOfPosts(userInfo.getNumberOfPosts());
 			loginResponse.setUserName(userInfo.getUserName());
 			return loginResponse;
 		}
@@ -90,8 +84,8 @@ public class LoginService {
 		userInfo.setUserName(request.getUserName());
 		userInfo.setNumberOfFollowers(0);
 		userInfo.setNumberOfFollowing(0);
-		userInfo.setCreationDate(new Date());
-		userInfo.setNumberOfPosts(0);
+		userInfo.setCreationDate(cal.getTime());
+		userInfo.setDiaryEntryList(null);
 		userInfo.setUserActiveStatus(ApplicationConstants.USER_ACTIVATION_STATUS);
 		em.persist(userInfo);
 		
@@ -99,6 +93,7 @@ public class LoginService {
 		loginResponse.setNumberOfFollowing(0);
 		loginResponse.setNumberOfPosts(0);
 		loginResponse.setUserName(request.getUserName());
+		cal = null;
 		return loginResponse;
 	}
 

@@ -51,6 +51,14 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 		criteria.addOrder(Order.desc("postTime"));
 		criteria.setFetchSize(ApplicationConstants.MAXIMUM_DEFAULT_SINGLE_SEARCH);
 		return criteria.list();
+	}
+
+	@Override
+	public DiaryEntry getDiaryEntryById(Integer id) {
+		// TODO Auto-generated method stub
+		Criteria criteria = em.unwrap(Session.class).createCriteria(DiaryEntry.class);
+		criteria.add(Restrictions.eq("id",id));
+		return (DiaryEntry) criteria.uniqueResult();
 	}	
 	
 }

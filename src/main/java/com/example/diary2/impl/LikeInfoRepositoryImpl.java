@@ -33,10 +33,4 @@ public class LikeInfoRepositoryImpl implements LikeInfoRepositoryCustom{
 		return userInfoList;
 	}
 
-	@Override
-	public int getLikeStatusByContentInfoAndEmailId(ContentInfo contentInfo, String emailId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }
