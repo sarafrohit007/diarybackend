@@ -45,7 +45,7 @@ public class LikeService {
 			UserInfo user = userInfoRepository.getUserInfoByEmailId(email);
 			if(user!=null) {
 				LikeInfo likeInfo = new LikeInfo();
-				if(request.getContentType().equals(ContentType.CONTENT)) {
+				if(request.getContentType().equalsIgnoreCase(ContentType.CONTENT.getDescription())) {
 					DiaryEntry diaryEntry = diaryEntryRepository.getDiaryEntryById(request.getContentId()!=null?Integer.parseInt(request.getContentId()):null);
 					if(diaryEntry!=null) {	
 						likeInfo.setStatus(request.getLikeStatus());
@@ -54,7 +54,7 @@ public class LikeService {
 						likeInfo.setUser(user);
 						likeInfo.setContentType(ContentType.CONTENT);
 					}
-				}else if(request.getContentType().equals(ContentType.COMMENT)) {
+				}else if(request.getContentType().equalsIgnoreCase(ContentType.COMMENT.getDescription())) {
 					CommentEntry commentEntry = commentEntryRepository.getCommentEntryById(request.getContentId()!=null?Integer.parseInt(request.getContentId()):null);
 					if(commentEntry!=null) {
 						likeInfo.setStatus(request.getLikeStatus());

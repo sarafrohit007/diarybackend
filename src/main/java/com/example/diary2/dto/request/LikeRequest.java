@@ -14,7 +14,8 @@ public class LikeRequest {
 	@NotNull
 	private  String contentId;
 	
-	private ContentType contentType;
+	//private ContentType contentType;
+	private String contentType;
 	
 	private Integer likeStatus;
 
@@ -34,11 +35,11 @@ public class LikeRequest {
 		this.contentId = contentId;
 	}
 
-	public ContentType getContentType() {
+	public String getContentType() {
 		return contentType;
 	}
 
-	public void setContentType(ContentType contentType) {
+	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
 
