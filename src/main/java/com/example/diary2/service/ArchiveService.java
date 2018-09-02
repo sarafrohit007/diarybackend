@@ -1,6 +1,7 @@
 package com.example.diary2.service;
 
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,7 +68,13 @@ public class ArchiveService {
 			ArchiveDiaryResult diaryArchive = new ArchiveDiaryResult();
 			String date = DateUtils.getDiaryEntryDateInString(diary.getPostTime());
 			diaryArchive.setDate(date);
-			diaryArchive.setContent(diary.getContent());
+			try {
+				diaryArchive.setContent(diary.getContent()!=null?diary.getContent().getContentInBytes()!=null?new String(diary.getContent().getContentInBytes(),"UTF-8"):"":"");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				diaryArchive.setContent("");
+				e.printStackTrace();
+			}
 			diaryResult.add(diaryArchive);
 		}
 		return diaryResult;
