@@ -14,4 +14,6 @@ public interface DiaryEntryRepositoryCustom {
     List<DiaryEntry> getLatestDiaryEntry();
     
     DiaryEntry getDiaryEntryById(Integer id);
+    
+    List<DiaryEntry> getArchieveDiaryEntriesByUser(Integer userId,Integer year);
 }

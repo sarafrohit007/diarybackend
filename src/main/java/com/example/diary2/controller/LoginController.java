@@ -22,12 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.telegram.telegrambots.generics.WebhookBot;
 
+import com.example.diary2.dto.request.ArchiveRequest;
 import com.example.diary2.dto.request.CommentRequest;
 import com.example.diary2.dto.request.DiaryEntryRequest;
 import com.example.diary2.dto.request.FollowRequest;
 import com.example.diary2.dto.request.HomePageRequest;
 import com.example.diary2.dto.request.LikeRequest;
 import com.example.diary2.dto.request.LoginRequest;
+import com.example.diary2.dto.response.ArchiveResponse;
 import com.example.diary2.dto.response.CommentResponse;
 import com.example.diary2.dto.response.DiaryEntryResponse;
 import com.example.diary2.dto.response.FileUploadResponse;
@@ -36,6 +38,7 @@ import com.example.diary2.dto.response.HomePageResponse;
 import com.example.diary2.dto.response.LikeResponse;
 import com.example.diary2.dto.response.LoginResponse;
 import com.example.diary2.dto.response.MainPageResponse;
+import com.example.diary2.service.ArchiveService;
 import com.example.diary2.service.CommentService;
 import com.example.diary2.service.DiaryEntryService;
 import com.example.diary2.service.FollowService;
@@ -69,6 +72,9 @@ public class LoginController {
 	
 	@Autowired
 	LikeService likeService;
+	
+	@Autowired
+	ArchiveService archiveService;
 	
 	
 	
@@ -161,6 +167,16 @@ public class LoginController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public ResponseEntity<LikeResponse> likeDiaryEntry(@Valid @RequestBody LikeRequest request) {
 		return ResponseEntity.ok().body(likeService.likeContent(request));
+	}
+	
+	@RequestMapping(method=RequestMethod.POST,value="/archive")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ResponseEntity<ArchiveResponse> archiveDiary(@Valid @RequestBody ArchiveRequest request) {
+		//return ResponseEntity.ok().body(likeService.likeContent(request));
+		System.out.println("Inside archive request....");
+		return ResponseEntity.ok().body(archiveService.loadArchiveEntry(request));
+		//return null;
 	}
 	
 //	@RequestMapping(method=RequestMethod.GET,value="/userconten")
