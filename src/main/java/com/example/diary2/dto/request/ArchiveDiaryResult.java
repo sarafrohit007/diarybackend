@@ -9,7 +9,7 @@ public class ArchiveDiaryResult {
 	
 	private String date;
 	
-	private ContentInfo content;
+	private String content;
 
 	public String getDate() {
 		return date;
@@ -19,13 +19,23 @@ public class ArchiveDiaryResult {
 		this.date = date;
 	}
 
-	public ContentInfo getContent() {
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
+	
+
+	/*public ContentInfo getContent() {
 		return content;
 	}
 
 	public void setContent(ContentInfo content) {
 		this.content = content;
-	}
+	}*/
 	
 	
 
